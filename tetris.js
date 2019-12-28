@@ -27,12 +27,12 @@ function draw() {
 function drawMatrix(matrix, offset) {
 // draw this first piece to the canvas
     matrix.forEach((row, y) => {
-        console.log('this is the row', row)
-        console.log('this is the y', y);
+        // console.log('this is the row', row)
+        // console.log('this is the y', y);
 
         row.forEach((value, x) => {
-            console.log('this is the value', value)
-            console.log('this is the x', x);
+            // console.log('this is the value', value)
+            // console.log('this is the x', x);
 
             // if the value is not 0 then we draw
             if (value !== 0) {
@@ -43,15 +43,30 @@ function drawMatrix(matrix, offset) {
     })
 }
 
+// set up a drop counter to keep track off the time it takes to drop the piece 
+let dropCounter = 0;
+let dropInterval = 1000;
+
+let lastTime = 0;
 // add update function to let the play draw continously via animation frame
-function update() {
+// account for dropping the tetris piece with time 
+function update(time = 0) {
+    const delatTime = time - lastTime;
+    lastTime = time;
+
+    dropCounter += delatTime;
+    if(dropCounter > dropInterval) {
+        player.pos.y++;
+        dropCounter = 0;
+    }
+
     draw();
     requestAnimationFrame(update);
 }
 
 // add player structure
 const player = {
-    pos: {x: 5, y: 5},
+    pos: {x: 5, y: 1},
     matrix: matrix,
 }
 
