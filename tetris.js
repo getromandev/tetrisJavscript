@@ -18,6 +18,11 @@ const matrix = [
     [0, 1, 0]
 ];
 
+// create a draw function to handle the players input into the draw
+function draw() {
+    drawMatrix(player.matrix, player.pos);
+}
+
 // wrap the matrix draw in a function with matrix and offset as parameters
 function drawMatrix(matrix, offset) {
 // draw this first piece to the canvas
@@ -38,4 +43,10 @@ function drawMatrix(matrix, offset) {
     })
 }
 
-drawMatrix(matrix, {x: 5, y: 5});
+// add player structure
+const player = {
+    pos: {x: 5, y: 5},
+    matrix: matrix,
+}
+
+draw();
