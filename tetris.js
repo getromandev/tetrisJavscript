@@ -6,9 +6,6 @@ const context = canvas.getContext('2d');
 // scale the context to make pieces larger
 context.scale(20, 20)
 
-// create tetris backdrop 
-context.fillStyle = '#000';
-context.fillRect(0, 0, canvas.width, canvas.height);
 
 // create data structures for our tetris pieces: https://medium.com/@markmliu/the-tetris-proof-60a7a69a8e04
 // create the T shape with a 2D Matrix
@@ -20,6 +17,9 @@ const matrix = [
 
 // create a draw function to handle the players input into the draw
 function draw() {
+    // create tetris backdrop 
+    context.fillStyle = '#000';
+    context.fillRect(0, 0, canvas.width, canvas.height);
     drawMatrix(player.matrix, player.pos);
 }
 
@@ -43,10 +43,16 @@ function drawMatrix(matrix, offset) {
     })
 }
 
+// add update function to let the play draw continously via animation frame
+function update() {
+    draw();
+    requestAnimationFrame(update);
+}
+
 // add player structure
 const player = {
     pos: {x: 5, y: 5},
     matrix: matrix,
 }
 
-draw();
+update();
