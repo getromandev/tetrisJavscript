@@ -15,6 +15,16 @@ const matrix = [
     [0, 1, 0]
 ];
 
+// create function to store all the stock matrix pieces
+function createMatrix(w, h) {
+    const matrix = [];
+    while (h--) {
+        matrix.push(new Array(w).fill(0));
+    }
+    console.log(matrix);
+    return matrix;
+}
+
 // create a draw function to handle the players input into the draw
 function draw() {
     // create tetris backdrop 
@@ -38,6 +48,19 @@ function drawMatrix(matrix, offset) {
             if (value !== 0) {
                 context.fillStyle = 'red';
                 context.fillRect(x + offset.x, y + offset.y, 1, 1);
+            }
+        })
+    })
+}
+
+// add a merge function to connect the arena and player 
+function merge(area, player){
+    console.table(area);
+    console.log('this is player:', player)
+    player.matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if(value !== 0) {
+                arena[y + player.pos.y][x + player.pos.x] = value;
             }
         })
     })
@@ -74,6 +97,10 @@ function update(time = 0) {
     draw();
     requestAnimationFrame(update);
 }
+
+const arena = createMatrix(12, 20);
+console.log(arena);
+console.table(arena);
 
 // add player structure
 const player = {
