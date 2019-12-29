@@ -51,10 +51,16 @@ let lastTime = 0;
 // add update function to let the play draw continously via animation frame
 // account for dropping the tetris piece with time 
 function update(time = 0) {
-    const delatTime = time - lastTime;
+    const delaytime = time - lastTime;
+    
     lastTime = time;
+    dropCounter += delaytime;
 
-    dropCounter += delatTime;
+    console.log('time:', time)
+    console.log('lastTime:', lastTime);
+    console.log('delaytime:', delaytime);
+    console.log('dropCounter:', dropCounter);
+
     if(dropCounter > dropInterval) {
         player.pos.y++;
         dropCounter = 0;
@@ -69,5 +75,7 @@ const player = {
     pos: {x: 5, y: 1},
     matrix: matrix,
 }
+
+// add keyboard controls for the player
 
 update();
