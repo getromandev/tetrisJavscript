@@ -43,6 +43,12 @@ function drawMatrix(matrix, offset) {
     })
 }
 
+// drop piece two places
+function playerDrop() {
+    player.pos.y ++;
+    dropCounter = 0;
+}
+
 // set up a drop counter to keep track off the time it takes to drop the piece 
 let dropCounter = 0;
 let dropInterval = 1000;
@@ -56,14 +62,13 @@ function update(time = 0) {
     lastTime = time;
     dropCounter += delaytime;
 
-    console.log('time:', time)
-    console.log('lastTime:', lastTime);
-    console.log('delaytime:', delaytime);
-    console.log('dropCounter:', dropCounter);
+    // console.log('time:', time)
+    // console.log('lastTime:', lastTime);
+    // console.log('delaytime:', delaytime);
+    // console.log('dropCounter:', dropCounter);
 
     if(dropCounter > dropInterval) {
-        player.pos.y++;
-        dropCounter = 0;
+        playerDrop();
     }
 
     draw();
@@ -72,10 +77,23 @@ function update(time = 0) {
 
 // add player structure
 const player = {
-    pos: {x: 5, y: 1},
+    pos: {x: 5, y: 5},
     matrix: matrix,
 }
 
 // add keyboard controls for the player
+document.addEventListener('keydown', event => {
+    // with this log we are able to dig into the event object and discover the keycode needed to track controls for the player 
+    console.log('event', event);
+
+    if (event.keyCode === 37) {
+        player.pos.x --;
+    } else if (event.keyCode === 39) {
+        player.pos.x ++;
+    } else if (event.keyCode === 40) {
+        playerDrop();
+    }
+
+})
 
 update();
