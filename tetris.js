@@ -95,6 +95,14 @@ function playerDrop() {
     dropCounter = 0;
 }
 
+// create a function that hanldes the coliding to not exceed the right and left walls 
+function playerMove(dir) {
+    player.pos.x += dir;
+    if (collide(arena, player)) {
+        player.pos.x -= dir;
+    }
+}
+
 // set up a drop counter to keep track off the time it takes to drop the piece 
 let dropCounter = 0;
 let dropInterval = 1000;
@@ -137,9 +145,9 @@ document.addEventListener('keydown', event => {
     // console.log('event', event);
 
     if (event.keyCode === 37) {
-        player.pos.x --;
+        playerMove(-1) 
     } else if (event.keyCode === 39) {
-        player.pos.x ++;
+        playerMove(1)
     } else if (event.keyCode === 40) {
         playerDrop();
     }
