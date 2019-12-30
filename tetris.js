@@ -45,6 +45,8 @@ function draw() {
     // create tetris backdrop 
     context.fillStyle = '#000';
     context.fillRect(0, 0, canvas.width, canvas.height);
+
+    drawMatrix(arena, {x:0, y: 0});
     drawMatrix(player.matrix, player.pos);
 }
 
@@ -71,7 +73,7 @@ function drawMatrix(matrix, offset) {
 // add a merge function to connect the arena and player 
 function merge(area, player){
     console.table(area);
-    console.log('this is player:', player)
+    // console.log('this is player:', player)
     player.matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if(value !== 0) {
@@ -84,6 +86,12 @@ function merge(area, player){
 // drop piece two places
 function playerDrop() {
     player.pos.y ++;
+    // add the collision function here that says if the the player drops and collide then we are touching the ground or another piece 
+    if (collide(arena, player)) {
+        player.pos.y --;
+        merge(arena, player);
+        player.pos.y = 0;
+    }
     dropCounter = 0;
 }
 
@@ -126,7 +134,7 @@ const player = {
 // add keyboard controls for the player
 document.addEventListener('keydown', event => {
     // with this log we are able to dig into the event object and discover the keycode needed to track controls for the player 
-    console.log('event', event);
+    // console.log('event', event);
 
     if (event.keyCode === 37) {
         player.pos.x --;
