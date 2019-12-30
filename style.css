@@ -6,6 +6,9 @@ body {
     text-align: center;
 }
 
+p {
+    font-size: 0.3em;
+}
 canvas {
     border: solid .2em #fff;
     height: 90vh;
