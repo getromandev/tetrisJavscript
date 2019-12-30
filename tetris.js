@@ -6,15 +6,6 @@ const context = canvas.getContext('2d');
 // scale the context to make pieces larger
 context.scale(20, 20)
 
-
-// create data structures for our tetris pieces: https://medium.com/@markmliu/the-tetris-proof-60a7a69a8e04
-// create the T shape with a 2D Matrix
-const matrix = [
-    [0, 0, 0],
-    [1, 1, 1],
-    [0, 1, 0]
-];
-
 // create a collion detection function 
 function collide(arena, player) {
     const [m, o] = [player.matrix, player.pos];
@@ -38,6 +29,55 @@ function createMatrix(w, h) {
     }
     console.log(matrix);
     return matrix;
+}
+
+// create data structures for our tetris pieces: https://medium.com/@markmliu/the-tetris-proof-60a7a69a8e04
+// create the T shape with a 2D Matrix
+// write a function that creates new tetris pieces 
+function createPiece(type) {
+    if (type === 'T') {
+        return [
+            [0, 0, 0],
+            [1, 1, 1],
+            [0, 1, 0]
+        ]       
+    } else if (type === 'O') {
+        return [
+            [1, 1],
+            [1, 1]
+        ]  
+    } else if (type === 'L') {
+        return [
+            [0, 1, 0],
+            [0, 1, 0],
+            [0, 1, 1]
+        ]
+    } else if (type === 'J') {
+        return [
+            [0, 1, 0],
+            [0, 1, 0],
+            [1, 1, 0]
+        ]
+    } else if (type === 'I') {
+        return [
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 0, 0],
+        ]
+    } else if (type === 'S') {
+        return [
+            [0, 1, 1],
+            [1, 1, 0],
+            [0, 0, 0]
+        ]
+    } else if (type === 'Z') {
+        return [
+            [1, 1, 0],
+            [0, 1, 1],
+            [0, 0, 0]
+        ]
+    }
 }
 
 // create a draw function to handle the players input into the draw
@@ -173,7 +213,7 @@ console.table(arena);
 // add player structure
 const player = {
     pos: {x: 5, y: 5},
-    matrix: matrix,
+    matrix: createPiece('T'),
 }
 
 // add keyboard controls for the player
