@@ -150,6 +150,11 @@ function playerReset() {
     player.pos.y = 0;
     player.pos.x = (arena[0].length / 2 | 0) - 
                    (player.matrix[0].length / 2 | 0);
+
+    // clear the arena if we stack up all the pieces
+    if (collide(arena, player)) {
+        arena.forEach(row => row.fill(0));
+    }
 }
 
 // function that handles the player rotating the piece 
