@@ -6,6 +6,20 @@ const context = canvas.getContext('2d');
 // scale the context to make pieces larger
 context.scale(20, 20);
 
+// create a function that collects each row that is filled 
+function arenaSweep() {
+    outer: for (let y = arena.length - 1; y > 0; --y) {
+        for (let x = 0; x < arena[y].length; ++x) {
+            if (arena[y][x] === 0) {
+                continue outer
+            }
+        }
+        const row = arena.splice(y, 1)[0].fill(0);
+        arena.unshift(row);
+        ++ y;
+    }
+}
+
 // create a collion detection function 
 function collide(arena, player) {
     const [m, o] = [player.matrix, player.pos];
@@ -131,6 +145,7 @@ function playerDrop() {
         player.pos.y --;
         merge(arena, player);
         playerReset();
+        arenaSweep();
     }
     dropCounter = 0;
 }
