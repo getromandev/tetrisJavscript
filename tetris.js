@@ -8,15 +8,21 @@ context.scale(20, 20);
 
 // create a function that collects each row that is filled 
 function arenaSweep() {
+    // create counter to keep score
+    let rowCount = 1;
+
     outer: for (let y = arena.length - 1; y > 0; --y) {
         for (let x = 0; x < arena[y].length; ++x) {
             if (arena[y][x] === 0) {
-                continue outer
+                continue outer;
             }
         }
         const row = arena.splice(y, 1)[0].fill(0);
         arena.unshift(row);
         ++ y;
+
+        player.score += rowCount * 10;
+        rowCount *= 2;
     }
 }
 
@@ -146,6 +152,7 @@ function playerDrop() {
         merge(arena, player);
         playerReset();
         arenaSweep();
+        updateScore();
     }
     dropCounter = 0;
 }
@@ -169,6 +176,8 @@ function playerReset() {
     // clear the arena if we stack up all the pieces
     if (collide(arena, player)) {
         arena.forEach(row => row.fill(0));
+        player.score = 0;
+        updateScore();
     }
 }
 
@@ -235,6 +244,11 @@ function update(time = 0) {
     requestAnimationFrame(update);
 }
 
+// write a helper function that updates the score
+function updateScore() {
+    document.getElementById('score').innerHTML = player.score;
+}
+
 const colors = [
     null,
     'red',
@@ -244,7 +258,7 @@ const colors = [
     'purple',
     'orange',
     'pink',
-]
+];
 
 const arena = createMatrix(12, 20);
 console.log(arena);
@@ -252,8 +266,9 @@ console.table(arena);
 
 // add player structure
 const player = {
-    pos: {x: 5, y: 5},
-    matrix: createPiece('T'),
+    pos: {x: 0, y: 0},
+    matrix: null,
+    score: 0
 };
 
 // add keyboard controls for the player
@@ -274,4 +289,6 @@ document.addEventListener('keydown', event => {
     }
 });
 
+playerReset();
+updateScore();
 update();
