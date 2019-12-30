@@ -103,6 +103,22 @@ function playerMove(dir) {
     }
 }
 
+// function that handles the player rotating the piece 
+function playerRotate(dir) {
+    const pos = player.pos.x;
+    let offset = 1;
+    rotate(player.matrix, dir);
+    while (collide(arena, player)) {
+        player.pos.x += offset;
+        offset = -(offset + (offset > 0 ? 1 : -1));
+        if (offset > player.matrix[0].length) {
+            rotate(player.matrix, -dir);
+            player.pos.x = pos;
+            return;
+        }
+    }
+}
+
 // write a function that rotates the array 
 function rotate(matrix, dir) {
     for (let y = 0; y < matrix.length; ++y) {
@@ -111,7 +127,7 @@ function rotate(matrix, dir) {
                 matrix[x][y],
                 matrix[y][x]
             ] = [
-                matrix[y][x]
+                matrix[y][x],
                 matrix[x][y]
             ];
         }
@@ -171,8 +187,11 @@ document.addEventListener('keydown', event => {
         playerMove(1)
     } else if (event.keyCode === 40) {
         playerDrop();
+    } else if (event.keyCode === 81) {
+        playerRotate(-1)
+    } else if (event.keyCode === 87) {
+        playerRotate(1);
     }
-
-})
+});
 
 update();
